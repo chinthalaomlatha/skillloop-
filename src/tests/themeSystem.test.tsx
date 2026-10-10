@@ -78,12 +78,12 @@ describe('Theme System & Persistence Tests (§2.1)', () => {
     fireEvent.click(toggleBtn);
 
     // Check menu options
-    expect(screen.getByText('Light')).toBeDefined();
-    expect(screen.getByText('Dark')).toBeDefined();
+    expect(screen.getAllByText('Light').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Dark').length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText('System')).toBeDefined();
 
     // Select Dark
-    fireEvent.click(screen.getByText('Dark'));
+    fireEvent.click(screen.getAllByText('Dark')[0]);
     expect(localStorage.getItem('skillloop_theme_mode')).toBe('dark');
     expect(document.documentElement.classList.contains('dark')).toBe(true);
   });

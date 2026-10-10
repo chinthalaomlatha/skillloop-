@@ -23,32 +23,62 @@ export const ThemeToggle: React.FC<{ className?: string }> = ({ className = '' }
     { mode: 'system', label: 'System', icon: Laptop },
   ];
 
-  const CurrentIcon = resolvedTheme === 'dark' ? Moon : Sun;
-
   return (
-    <div className={`relative inline-block text-left ${className}`} ref={dropdownRef}>
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label={`Current theme is ${theme}. Click to switch theme.`}
-        aria-haspopup="true"
-        aria-expanded={isOpen}
-        className="px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:outline-none cursor-pointer"
-        title={`Theme: ${theme.charAt(0).toUpperCase() + theme.slice(1)} (Click to switch)`}
-      >
-        <CurrentIcon className="w-4 h-4 text-amber-500 dark:text-indigo-400" />
-        <span className="text-xs font-semibold capitalize hidden sm:inline">{resolvedTheme}</span>
-        <ChevronDown className="w-3 h-3 text-slate-400" />
-      </button>
+    <div className={`relative inline-flex items-center text-left ${className}`} ref={dropdownRef}>
+      {/* 1-Click Segmented Toggle Pill */}
+      <div className="flex items-center rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 p-0.5">
+        <button
+          type="button"
+          onClick={() => setTheme('light')}
+          aria-label="Switch to Light theme"
+          title="Switch to Light theme"
+          className={`px-2.5 py-1 text-xs font-semibold rounded-md flex items-center gap-1.5 transition-all cursor-pointer ${
+            resolvedTheme === 'light'
+              ? 'bg-white text-amber-600 shadow-xs font-bold'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+          }`}
+        >
+          <Sun className="w-3.5 h-3.5 text-amber-500" />
+          <span>Light</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setTheme('dark')}
+          aria-label="Switch to Dark theme"
+          title="Switch to Dark theme"
+          className={`px-2.5 py-1 text-xs font-semibold rounded-md flex items-center gap-1.5 transition-all cursor-pointer ${
+            resolvedTheme === 'dark'
+              ? 'bg-slate-900 text-indigo-400 shadow-xs font-bold'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+          }`}
+        >
+          <Moon className="w-3.5 h-3.5 text-indigo-400" />
+          <span>Dark</span>
+        </button>
+
+        {/* Dropdown Options Trigger */}
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={`Current theme is ${theme}. Click to switch theme.`}
+          aria-haspopup="true"
+          aria-expanded={isOpen}
+          title="Theme settings (Auto/System mode)"
+          className="p-1 rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+        >
+          <ChevronDown className="w-3 h-3" />
+        </button>
+      </div>
 
       {isOpen && (
         <div
           role="menu"
           aria-orientation="vertical"
-          className="absolute right-0 mt-2 w-36 rounded-xl shadow-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 py-1 z-50 focus:outline-none"
+          className="absolute right-0 top-full mt-1.5 w-40 rounded-xl shadow-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 py-1.5 z-50 focus:outline-none"
         >
           <div className="px-3 py-1 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-            Choose Theme
+            Theme Mode
           </div>
           {options.map(({ mode, label, icon: Icon }) => (
             <button
