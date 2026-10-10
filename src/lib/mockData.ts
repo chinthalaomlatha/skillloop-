@@ -31,6 +31,8 @@ export const SEED_SKILLS: Skill[] = [
   { id: 's8', category_id: 'c11', name: 'Calisthenics & Bodyweight Fitness', slug: 'calisthenics-fitness', description: 'Pull-up progression, dips, handstand balance, joint conditioning.', is_custom: false, tags: ['fitness', 'calisthenics', 'health'] },
   { id: 's9', category_id: 'c5', name: 'Acoustic Guitar Fundamentals', slug: 'acoustic-guitar-fundamentals', description: 'Open chords, strumming patterns, rhythm timing, and song accompaniment.', is_custom: false, tags: ['music', 'guitar', 'instrument'] },
   { id: 's10', category_id: 'c2', name: 'Ethical Hacking & Web Security', slug: 'ethical-hacking-web-security', description: 'OWASP Top 10 vulnerabilities, web security auditing, authorization flaws.', is_custom: false, tags: ['cybersecurity', 'security', 'hacking'] },
+  { id: 's11', category_id: 'c7', name: 'Conversational Japanese', slug: 'conversational-japanese', description: 'Everyday dialogue, hiragana/katakana basics, and cultural etiquette.', is_custom: false, tags: ['languages', 'japanese', 'speaking'] },
+  { id: 's12', category_id: 'c6', name: 'Salsa & Latin Social Dance', slug: 'salsa-dance', description: 'Rhythm timing, basic footwork, partner connection, and turn patterns.', is_custom: false, tags: ['dance', 'salsa', 'performing'] },
 ];
 
 export const SEED_PROFILES: Profile[] = [
@@ -47,6 +49,8 @@ export const SEED_PROFILES: Profile[] = [
     free_exchange_only: true,
     paid_tutoring_offered: false,
     currency: 'USD',
+    is_demo: true,
+    is_public: true,
     created_at: new Date(Date.now() - 86400000 * 30).toISOString(),
     updated_at: new Date().toISOString(),
   },
@@ -63,6 +67,8 @@ export const SEED_PROFILES: Profile[] = [
     free_exchange_only: true,
     paid_tutoring_offered: false,
     currency: 'USD',
+    is_demo: true,
+    is_public: true,
     created_at: new Date(Date.now() - 86400000 * 25).toISOString(),
     updated_at: new Date().toISOString(),
   },
@@ -79,6 +85,8 @@ export const SEED_PROFILES: Profile[] = [
     free_exchange_only: true,
     paid_tutoring_offered: false,
     currency: 'USD',
+    is_demo: true,
+    is_public: true,
     created_at: new Date(Date.now() - 86400000 * 20).toISOString(),
     updated_at: new Date().toISOString(),
   },
@@ -95,6 +103,8 @@ export const SEED_PROFILES: Profile[] = [
     free_exchange_only: true,
     paid_tutoring_offered: false,
     currency: 'USD',
+    is_demo: true,
+    is_public: true,
     created_at: new Date(Date.now() - 86400000 * 18).toISOString(),
     updated_at: new Date().toISOString(),
   },
@@ -111,6 +121,8 @@ export const SEED_PROFILES: Profile[] = [
     free_exchange_only: true,
     paid_tutoring_offered: false,
     currency: 'USD',
+    is_demo: true,
+    is_public: true,
     created_at: new Date(Date.now() - 86400000 * 15).toISOString(),
     updated_at: new Date().toISOString(),
   },
@@ -127,6 +139,8 @@ export const SEED_PROFILES: Profile[] = [
     free_exchange_only: true,
     paid_tutoring_offered: false,
     currency: 'USD',
+    is_demo: true,
+    is_public: true,
     created_at: new Date(Date.now() - 86400000 * 12).toISOString(),
     updated_at: new Date().toISOString(),
   },
@@ -143,7 +157,63 @@ export const SEED_PROFILES: Profile[] = [
     free_exchange_only: true,
     paid_tutoring_offered: false,
     currency: 'USD',
+    is_demo: true,
+    is_public: true,
     created_at: new Date(Date.now() - 86400000 * 10).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'u-kenji',
+    email: 'kenji.sato@example.com',
+    full_name: 'Kenji Sato',
+    headline: 'Security Engineer & Pen Tester',
+    bio: 'Passionate about digital privacy, OWASP web application defense, and network architecture. Looking to pick up acoustic guitar from scratch!',
+    avatar_url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200',
+    timezone: 'Asia/Tokyo (UTC+9)',
+    language: 'English',
+    preferred_format: '1:1',
+    free_exchange_only: true,
+    paid_tutoring_offered: false,
+    currency: 'USD',
+    is_demo: true,
+    is_public: true,
+    created_at: new Date(Date.now() - 86400000 * 8).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'u-amira',
+    email: 'amira.hassan@example.com',
+    full_name: 'Amira Hassan',
+    headline: 'Fingerstyle Acoustic Guitarist',
+    bio: 'Guitar player and folk songwriter. Patient mentor in fingerpicking and chord harmony. Wanting to learn conversational Japanese for an upcoming tour.',
+    avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+    timezone: 'Asia/Dubai (UTC+4)',
+    language: 'English',
+    preferred_format: '1:1',
+    free_exchange_only: true,
+    paid_tutoring_offered: false,
+    currency: 'USD',
+    is_demo: true,
+    is_public: true,
+    created_at: new Date(Date.now() - 86400000 * 6).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'u-liam',
+    email: 'liam.vance@example.com',
+    full_name: 'Liam Vance',
+    headline: 'Social Dance & Salsa Instructor',
+    bio: 'Social dancing coach teaching rhythm, footwork, and musicality. Exploring web automation and Python to build local community event scrapers.',
+    avatar_url: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200',
+    timezone: 'America/Los_Angeles (UTC-8)',
+    language: 'English',
+    preferred_format: 'small_group',
+    free_exchange_only: true,
+    paid_tutoring_offered: false,
+    currency: 'USD',
+    is_demo: true,
+    is_public: true,
+    created_at: new Date(Date.now() - 86400000 * 4).toISOString(),
     updated_at: new Date().toISOString(),
   },
 ];
@@ -163,6 +233,12 @@ export const SEED_TEACHING_SKILLS: UserTeachingSkill[] = [
   { id: 'ts-d1', user_id: 'u-david', skill_id: 's7', proficiency_level: 'expert', years_experience: 7.0, teaching_style: 'Starter troubleshooting and dough feel breakdown', is_free_exchange: true, availability_hours_per_week: 2, skill: SEED_SKILLS[6] },
   // Sarah teaches Calisthenics
   { id: 'ts-s1', user_id: 'u-sarah', skill_id: 's8', proficiency_level: 'advanced', years_experience: 3.0, teaching_style: 'Joint mobility warmup and form check videos', is_free_exchange: true, availability_hours_per_week: 2, skill: SEED_SKILLS[7] },
+  // Kenji teaches Cybersecurity
+  { id: 'ts-k1', user_id: 'u-kenji', skill_id: 's10', proficiency_level: 'expert', years_experience: 6.0, teaching_style: 'Interactive lab walk-throughs & vulnerability analysis', is_free_exchange: true, availability_hours_per_week: 2, skill: SEED_SKILLS[9] },
+  // Amira teaches Guitar
+  { id: 'ts-a1', user_id: 'u-amira', skill_id: 's9', proficiency_level: 'advanced', years_experience: 5.0, teaching_style: 'Step-by-step fingerpicking drills and ear training', is_free_exchange: true, availability_hours_per_week: 3, skill: SEED_SKILLS[8] },
+  // Liam teaches Salsa Dance
+  { id: 'ts-l1', user_id: 'u-liam', skill_id: 's12', proficiency_level: 'advanced', years_experience: 4.5, teaching_style: 'Rhythm breakdown, partner footwork, and musicality', is_free_exchange: true, availability_hours_per_week: 2, skill: SEED_SKILLS[11] },
 ];
 
 export const SEED_LEARNING_GOALS: UserLearningGoal[] = [
@@ -180,6 +256,12 @@ export const SEED_LEARNING_GOALS: UserLearningGoal[] = [
   { id: 'lg-d1', user_id: 'u-david', skill_id: 's8', current_proficiency: 'none', desired_proficiency: 'beginner', learning_objective: 'Build core strength and improve baker posture safely', preferred_format: '1:1', skill: SEED_SKILLS[7] },
   // Sarah wants Sourdough
   { id: 'lg-s1', user_id: 'u-sarah', skill_id: 's7', current_proficiency: 'beginner', desired_proficiency: 'intermediate', learning_objective: 'Bake consistent open-crumb sourdough boules', preferred_format: '1:1', skill: SEED_SKILLS[6] },
+  // Kenji wants Acoustic Guitar (matches Amira!)
+  { id: 'lg-k1', user_id: 'u-kenji', skill_id: 's9', current_proficiency: 'none', desired_proficiency: 'beginner', learning_objective: 'Learn chord transitions and acoustic fingerstyle fundamentals', preferred_format: '1:1', skill: SEED_SKILLS[8] },
+  // Amira wants Japanese
+  { id: 'lg-a1', user_id: 'u-amira', skill_id: 's11', current_proficiency: 'none', desired_proficiency: 'beginner', learning_objective: 'Basic travel phrases, food ordering, and polite introductions', preferred_format: '1:1', skill: SEED_SKILLS[10] },
+  // Liam wants Python (matches Maya!)
+  { id: 'lg-l1', user_id: 'u-liam', skill_id: 's1', current_proficiency: 'none', desired_proficiency: 'beginner', learning_objective: 'Scrape local dance social calendars and automate newsletters', preferred_format: 'small_group', skill: SEED_SKILLS[0] },
 ];
 
 export const SEED_ACHIEVEMENTS: Achievement[] = [

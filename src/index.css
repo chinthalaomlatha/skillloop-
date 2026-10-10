@@ -3,18 +3,127 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --bg-canvas: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-subtle: #f1f5f9;
+    --bg-muted: #e2e8f0;
+    --bg-elevated: #ffffff;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --text-inverse: #ffffff;
+    
+    --border-subtle: #f1f5f9;
+    --border-default: #e2e8f0;
+    --border-hover: #cbd5e1;
+    --border-focus: #10b981;
+
+    /* Semantic Skill-Tag Tokens (§2.3 & §4.2) */
+    --chip-teach-bg: #ecfdf5;
+    --chip-teach-text: #065f46;
+    --chip-teach-border: #a7f3d0;
+
+    --chip-learn-bg: #eef2ff;
+    --chip-learn-text: #3730a3;
+    --chip-learn-border: #c7d2fe;
+
+    --badge-free-bg: #f0fdf4;
+    --badge-free-text: #166534;
+    --badge-free-border: #bbf7d0;
+
+    --prof-beginner-bg: #f0f9ff;
+    --prof-beginner-text: #0369a1;
+    --prof-beginner-border: #bae6fd;
+
+    --prof-intermediate-bg: #fefce8;
+    --prof-intermediate-text: #854d0e;
+    --prof-intermediate-border: #fef08a;
+
+    --prof-advanced-bg: #faf5ff;
+    --prof-advanced-text: #6b21a8;
+    --prof-advanced-border: #e9d5ff;
+
+    --prof-expert-bg: #ecfdf5;
+    --prof-expert-text: #047857;
+    --prof-expert-border: #6ee7b7;
+  }
+
+  .dark {
+    --bg-canvas: #090d16;
+    --bg-card: #111827;
+    --bg-subtle: #1f2937;
+    --bg-muted: #374151;
+    --bg-elevated: #1f2937;
+    
+    --text-primary: #f9fafb;
+    --text-secondary: #e5e7eb;
+    --text-muted: #9ca3af;
+    --text-inverse: #0f172a;
+    
+    --border-subtle: #1f2937;
+    --border-default: #374151;
+    --border-hover: #4b5563;
+    --border-focus: #34d399;
+
+    /* Semantic Skill-Tag Tokens (Dark) */
+    --chip-teach-bg: rgba(6, 78, 59, 0.45);
+    --chip-teach-text: #6ee7b7;
+    --chip-teach-border: rgba(16, 185, 129, 0.35);
+
+    --chip-learn-bg: rgba(49, 46, 129, 0.45);
+    --chip-learn-text: #a5b4fc;
+    --chip-learn-border: rgba(99, 102, 241, 0.35);
+
+    --badge-free-bg: rgba(20, 83, 45, 0.45);
+    --badge-free-text: #4ade80;
+    --badge-free-border: rgba(34, 197, 94, 0.35);
+
+    --prof-beginner-bg: rgba(12, 74, 110, 0.45);
+    --prof-beginner-text: #38bdf8;
+    --prof-beginner-border: rgba(14, 165, 233, 0.35);
+
+    --prof-intermediate-bg: rgba(113, 63, 18, 0.45);
+    --prof-intermediate-text: #fde047;
+    --prof-intermediate-border: rgba(234, 179, 8, 0.35);
+
+    --prof-advanced-bg: rgba(88, 28, 135, 0.45);
+    --prof-advanced-text: #c084fc;
+    --prof-advanced-border: rgba(168, 85, 247, 0.35);
+
+    --prof-expert-bg: rgba(6, 78, 59, 0.55);
+    --prof-expert-text: #34d399;
+    --prof-expert-border: rgba(52, 211, 153, 0.4);
+  }
+
   html, body {
     margin: 0;
     padding: 0;
-    background-color: #f8fafc;
-    color: #0f172a;
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
   
   #root {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

@@ -22,6 +22,8 @@ export interface Profile {
   hourly_rate?: number;
   currency: string;
   is_admin?: boolean;
+  is_demo?: boolean;
+  is_public?: boolean;
   created_at: string;
   updated_at: string;
 }

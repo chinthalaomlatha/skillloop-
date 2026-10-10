@@ -18,6 +18,7 @@ export const MatchesPage: React.FC = () => {
   const [minScore, setMinScore] = useState(30);
   const [matches, setMatches] = useState<PeerMatch[]>([]);
   const [notification, setNotification] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const computeMatches = () => {
     if (!user) return;
@@ -61,14 +62,20 @@ export const MatchesPage: React.FC = () => {
   }, [user, freeExchangeOnly, searchQuery, minScore]);
 
   const handleRequestConnect = (match: PeerMatch, message: string) => {
-    store.sendMatchRequest(
-      match.partnerId,
-      match.matchedLearningGoal.skill_id,
-      match.matchedTeachingSkill.skill_id,
-      message
-    );
-    setNotification(`Exchange proposal successfully sent to ${match.partnerProfile.full_name}!`);
-    setTimeout(() => setNotification(null), 4000);
+    try {
+      setErrorMessage(null);
+      store.sendMatchRequest(
+        match.partnerId,
+        match.matchedLearningGoal.skill_id,
+        match.matchedTeachingSkill.skill_id,
+        message
+      );
+      setNotification(`Exchange proposal successfully sent to ${match.partnerProfile.full_name}!`);
+      setTimeout(() => setNotification(null), 4000);
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Failed to submit exchange proposal.');
+      setTimeout(() => setErrorMessage(null), 5000);
+    }
   };
 
   return (
@@ -103,6 +110,15 @@ export const MatchesPage: React.FC = () => {
           <Link to="/requests" className="text-emerald-800 underline font-bold hover:text-emerald-950 whitespace-nowrap">
             View in Sent Proposals &rarr;
           </Link>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs font-semibold text-rose-800 flex items-center justify-between gap-2">
+          <span>{errorMessage}</span>
+          <button onClick={() => setErrorMessage(null)} className="text-rose-600 hover:text-rose-900 font-bold cursor-pointer">
+            Dismiss
+          </button>
         </div>
       )}
 

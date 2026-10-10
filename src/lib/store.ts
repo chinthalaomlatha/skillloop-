@@ -226,6 +226,18 @@ function saveState() {
 export const store = {
   getState: (): AppState => memoryState,
 
+  getCurrentUser: (): Profile | null => memoryState.currentUser,
+
+  resetToSeed: () => {
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    } catch {}
+    memoryState = getInitialState();
+    saveState();
+  },
+
   subscribe: (listener: (state: AppState) => void) => {
     listeners.add(listener);
     return () => {
@@ -320,7 +332,43 @@ export const store = {
   },
 
   sendMatchRequest: (receiverId: string, senderTeachesId: string, senderLearnsId: string, message?: string): MatchRequest => {
-    const sender = memoryState.currentUser!;
+    const sender = memoryState.currentUser;
+    if (!sender) {
+      throw new Error('You must be signed in to send an exchange request.');
+    }
+    if (sender.id === receiverId) {
+      throw new Error('You cannot propose a skill exchange with yourself.');
+    }
+
+    // Prevent duplicate pending requests for the same exchange pair (§7.3)
+    const existingPending = memoryState.matchRequests.find(
+      (r) =>
+        r.status === 'pending' &&
+        ((r.sender_id === sender.id && r.receiver_id === receiverId) ||
+         (r.sender_id === receiverId && r.receiver_id === sender.id))
+    );
+    if (existingPending) {
+      throw new Error('A pending exchange request between you and this member already exists.');
+    }
+
+    // Rate limiting (§7.5): Max 10 requests per user per hour
+    const oneHourAgo = new Date(Date.now() - 3600000).toISOString();
+    const pastHourCount = memoryState.matchRequests.filter(
+      (r) => r.sender_id === sender.id && r.created_at >= oneHourAgo
+    ).length;
+    if (pastHourCount >= 10) {
+      throw new Error('Hourly exchange request limit reached (maximum 10 requests per hour). Please try again later.');
+    }
+
+    // Rate limiting (§7.5): Max 50 requests per user per day
+    const oneDayAgo = new Date(Date.now() - 86400000).toISOString();
+    const pastDayCount = memoryState.matchRequests.filter(
+      (r) => r.sender_id === sender.id && r.created_at >= oneDayAgo
+    ).length;
+    if (pastDayCount >= 50) {
+      throw new Error('Daily exchange request limit reached (maximum 50 requests per day). Please try again tomorrow.');
+    }
+
     const receiver = memoryState.profiles.find((p) => p.id === receiverId);
     const req: MatchRequest = {
       id: `req-${Date.now()}`,
@@ -329,7 +377,7 @@ export const store = {
       sender_teaches_skill_id: senderTeachesId,
       sender_learns_skill_id: senderLearnsId,
       status: 'pending',
-      message,
+      message: message?.trim(),
       compatibility_score: 90,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),

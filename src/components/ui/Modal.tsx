@@ -42,21 +42,21 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity" onClick={onClose} />
+    <div className="fixed inset-0 z-50 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity" onClick={onClose} aria-hidden="true" />
       <div className="flex min-h-full items-center justify-center p-4">
         <div
-          className={`relative w-full ${maxWidths[maxWidth]} bg-white rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden transform transition-all z-10`}
+          className={`relative w-full ${maxWidths[maxWidth]} bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200/80 dark:border-slate-800 text-slate-900 dark:text-slate-100 overflow-hidden transform transition-all z-10`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-start justify-between p-5 border-b border-slate-100">
+          <div className="flex items-start justify-between p-5 border-b border-slate-100 dark:border-slate-800">
             <div>
-              <h3 className="text-lg font-bold text-slate-900">{title}</h3>
-              {description && <p className="mt-0.5 text-xs text-slate-500">{description}</p>}
+              <h3 id="modal-title" className="text-lg font-bold text-slate-900 dark:text-slate-100">{title}</h3>
+              {description && <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{description}</p>}
             </div>
             <button
               onClick={onClose}
-              className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+              className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
