@@ -296,3 +296,29 @@ export function discoverSkillCircles(
 
   return circles;
 }
+
+/**
+ * Scans the entire community to find all active 3-person reciprocal triangles.
+ */
+export function discoverAllCommunityCircles(
+  allUsers: UserNode[],
+  skillsById: Record<string, Skill>
+): ProposedCircleLoop[] {
+  const allCircles: ProposedCircleLoop[] = [];
+  const seenKeys = new Set<string>();
+
+  for (const user of allUsers) {
+    const userLoops = discoverSkillCircles(user, allUsers, skillsById);
+    for (const loop of userLoops) {
+      if (!loop.isFallbackTwoPerson) {
+        const sortedIds = loop.members.map((m) => m.user_id).sort().join('-');
+        if (!seenKeys.has(sortedIds)) {
+          seenKeys.add(sortedIds);
+          allCircles.push(loop);
+        }
+      }
+    }
+  }
+
+  return allCircles;
+}

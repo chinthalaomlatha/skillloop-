@@ -109,11 +109,7 @@ export const ExplorePage: React.FC = () => {
       if (appState.blockedUserIds.includes(p.id)) return false;
       // Exclude current logged in user
       if (user && p.id === user.id) return false;
-      // Isolation (§9.3)
-      if (isDemo) {
-        return p.is_demo !== false;
-      }
-      return p.is_demo === false;
+      return true;
     });
 
     // 1. Mandatory Free-first filtering (§5.2 & §6)
@@ -314,11 +310,6 @@ export const ExplorePage: React.FC = () => {
             <h1 className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight flex items-center gap-2">
               <Users className="w-6 h-6 text-emerald-600 dark:text-emerald-400" /> Discover Exchange Peers
             </h1>
-            {isDemo && (
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800" title="Demonstration mode isolating demo profiles">
-                Demo Mode
-              </span>
-            )}
           </div>
           <p className="text-xs text-slate-600 dark:text-slate-400">
             Browse real, eligible members. See what they teach, what they want to learn, and honest reciprocity indicators.

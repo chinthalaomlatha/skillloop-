@@ -511,6 +511,38 @@ export const store = {
     return newAttempt;
   },
 
+  joinOrFormCircle: (circle: any) => {
+    const existing = memoryState.circles.find((c) => c.id === circle.circleId);
+    if (!existing) {
+      const newCircle: SkillCircle = {
+        id: circle.circleId,
+        name: circle.name,
+        description: circle.description,
+        topic: circle.sharedGoal || 'Skill Exchange Circle',
+        max_members: circle.loopSize || 3,
+        status: 'active',
+        created_at: new Date().toISOString(),
+        members: circle.members,
+        milestones: circle.milestones,
+      };
+      memoryState.circles.unshift(newCircle);
+    }
+    const currentUser = memoryState.currentUser;
+    if (currentUser) {
+      memoryState.notifications.unshift({
+        id: `notif-${Date.now()}`,
+        user_id: currentUser.id,
+        title: 'Skill Circle Active!',
+        message: `You formed the "${circle.name}"! Knowledge circulation loop is active.`,
+        type: 'match_request',
+        link: '/circles',
+        is_read: false,
+        created_at: new Date().toISOString(),
+      });
+    }
+    saveState();
+  },
+
   saveLearningPath: (path: LearningPath) => {
     const idx = memoryState.learningPaths.findIndex((p) => p.id === path.id);
     if (idx >= 0) {

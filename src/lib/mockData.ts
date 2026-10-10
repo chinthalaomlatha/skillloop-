@@ -244,8 +244,9 @@ export const SEED_TEACHING_SKILLS: UserTeachingSkill[] = [
 export const SEED_LEARNING_GOALS: UserLearningGoal[] = [
   // Maya wants Spanish
   { id: 'lg-m1', user_id: 'u-maya', skill_id: 's3', current_proficiency: 'beginner', desired_proficiency: 'intermediate', learning_objective: 'Order food and converse naturally on an upcoming trip', preferred_format: '1:1', skill: SEED_SKILLS[2] },
-  // Carlos wants Python
+  // Carlos wants Python & Salsa Dance
   { id: 'lg-c1', user_id: 'u-carlos', skill_id: 's1', current_proficiency: 'none', desired_proficiency: 'beginner', learning_objective: 'Automate lesson scheduling and spreadsheets', preferred_format: '1:1', skill: SEED_SKILLS[0] },
+  { id: 'lg-c2', user_id: 'u-carlos', skill_id: 's12', current_proficiency: 'beginner', desired_proficiency: 'intermediate', learning_objective: 'Master Latin social dance timing and partner turns', preferred_format: '1:1', skill: SEED_SKILLS[11] },
   // Elena wants Video Editing
   { id: 'lg-e1', user_id: 'u-elena', skill_id: 's5', current_proficiency: 'beginner', desired_proficiency: 'intermediate', learning_objective: 'Add motion and animated cuts to brand deliverables', preferred_format: 'small_group', skill: SEED_SKILLS[4] },
   // Marcus wants Creative Writing

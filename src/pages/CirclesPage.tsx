@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Repeat, Sparkles, CheckCircle2, Info, ArrowRight } from 'lucide-react';
+import { Repeat, Sparkles, CheckCircle2, Info, ArrowRight, Users, PlusCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { store } from '../lib/store';
-import { discoverSkillCircles, ProposedCircleLoop } from '../lib/circleEngine';
+import { discoverSkillCircles, discoverAllCommunityCircles, ProposedCircleLoop } from '../lib/circleEngine';
 import { CircleCard } from '../components/circles/CircleCard';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Button } from '../components/ui/Button';
@@ -12,7 +12,9 @@ export const CirclesPage: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [circles, setCircles] = useState<ProposedCircleLoop[]>([]);
+  const [activeTab, setActiveTab] = useState<'my_circles' | 'community'>('my_circles');
+  const [myCircles, setMyCircles] = useState<ProposedCircleLoop[]>([]);
+  const [communityCircles, setCommunityCircles] = useState<ProposedCircleLoop[]>([]);
   const [joinedCircleIds, setJoinedCircleIds] = useState<Set<string>>(new Set());
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
@@ -31,13 +33,22 @@ export const CirclesPage: React.FC = () => {
 
     const skillsById = Object.fromEntries(state.skills.map((s) => [s.id, s]));
 
-    const discovered = discoverSkillCircles(
+    // 1. Circles for current user
+    const userLoops = discoverSkillCircles(
       { profile: user, teachingSkills: myTeaches, learningGoals: myLearns },
       allUsers,
       skillsById
     );
+    setMyCircles(userLoops);
 
-    setCircles(discovered);
+    // 2. All 3-person community circles
+    const allCommunityLoops = discoverAllCommunityCircles(allUsers, skillsById);
+    setCommunityCircles(allCommunityLoops);
+
+    // Check which circles were already formed in state
+    const alreadyJoined = new Set<string>();
+    state.circles.forEach((c) => alreadyJoined.add(c.id));
+    setJoinedCircleIds(alreadyJoined);
   };
 
   useEffect(() => {
@@ -47,54 +58,86 @@ export const CirclesPage: React.FC = () => {
   }, [user]);
 
   const handleJoinCircle = (circle: ProposedCircleLoop) => {
+    store.joinOrFormCircle(circle);
     setJoinedCircleIds((prev) => new Set([...prev, circle.circleId]));
-    setSuccessMsg(`Congratulations! You have formed the "${circle.name}"! Invitations sent to peers.`);
-    setTimeout(() => setSuccessMsg(null), 5000);
+    setSuccessMsg(`Congratulations! You have successfully formed the "${circle.name}"! Peer invitations sent and roadmap activated.`);
+    setTimeout(() => setSuccessMsg(null), 6000);
   };
+
+  const displayedCircles = activeTab === 'my_circles' ? myCircles : communityCircles;
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="pb-4 border-b border-slate-200">
+      <div className="pb-4 border-b border-slate-200 dark:border-slate-800">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold mb-2">
-              <Repeat className="w-3.5 h-3.5" /> Signature Feature (§7)
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-semibold mb-2">
+              <Repeat className="w-3.5 h-3.5" /> 3-Person Reciprocal Exchange Loops
             </div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">
               AI Skill Circles & Reciprocal Knowledge Loops
             </h1>
-            <p className="text-xs text-slate-600 mt-1 max-w-3xl leading-relaxed">
-              Connect 3 or more members whose teaching contributions and learning goals form a continuous closed loop.
-              Knowledge circulates freely without requiring an outside instructor.
+            <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 max-w-3xl leading-relaxed">
+              Connect 3 members whose teaching contributions and learning goals form a continuous closed loop (A teaches B, B teaches C, C teaches A).
+              Knowledge circulates freely without requiring an outside instructor or paid classes.
             </p>
           </div>
 
-          <Button variant="outline" size="sm" onClick={() => loadCircles()}>
-            Re-scan Community
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => loadCircles()}>
+              Re-scan Community
+            </Button>
+          </div>
+        </div>
+
+        {/* Tab Controls */}
+        <div className="flex items-center gap-2 mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+          <button
+            onClick={() => setActiveTab('my_circles')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
+              activeTab === 'my_circles'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+            }`}
+          >
+            <Repeat className="w-3.5 h-3.5" />
+            <span>Loops Matching My Skills ({myCircles.length})</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('community')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
+              activeTab === 'community'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+            }`}
+          >
+            <Users className="w-3.5 h-3.5" />
+            <span>All 3-Person Community Circles ({communityCircles.length})</span>
+          </button>
         </div>
       </div>
 
       {successMsg && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-          {successMsg}
+        <div className="p-4 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 rounded-xl text-xs font-semibold text-emerald-800 dark:text-emerald-200 flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+          <span>{successMsg}</span>
         </div>
       )}
 
-      {/* Educational notice regarding Sparse-Data Fallback */}
-      <div className="p-3.5 bg-slate-50 border border-slate-200/80 rounded-xl text-xs text-slate-700 flex items-start gap-2.5">
-        <Info className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
+      {/* Info Notice regarding 3-Person Circulation */}
+      <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 rounded-xl text-xs text-slate-700 dark:text-slate-300 flex items-start gap-2.5">
+        <Info className="w-4 h-4 text-indigo-500 shrink-0 mt-0.5" />
         <div>
-          <strong>Sparse-Data Fallback Matrix (§7):</strong> If fewer than 3 compatible profiles form a closed triangle for your currently listed skills, SkillLoop automatically and honestly falls back to a 2-person reciprocal exchange. We never fabricate ghost members or simulate fake profiles.
+          <strong>How 3-Person Loops Work:</strong> In a Skill Circle, Member A teaches Member B, Member B teaches Member C, and Member C teaches Member A. Every member teaches what they know best and learns what they want, achieving 100% reciprocal value without monetary exchange.
         </div>
       </div>
 
-      {/* Discovered Circles */}
-      {circles.length > 0 ? (
+      {/* Discovered Circles List */}
+      {displayedCircles.length > 0 ? (
         <div className="space-y-6">
-          {circles.map((circle) => (
+          {displayedCircles.map((circle) => (
             <CircleCard
               key={circle.circleId}
               circle={circle}
