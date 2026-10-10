@@ -1,0 +1,191 @@
+import { Profile, SkillCategory, Skill, UserTeachingSkill, UserLearningGoal, LearningResource, Achievement, NotificationItem } from '../types';
+import { PRE_CACHED_RESOURCES } from './resourceService';
+
+export const SEED_CATEGORIES: SkillCategory[] = [
+  { id: 'c1', name: 'Technology & Programming', slug: 'technology-programming', description: 'Web dev, Python, AI integration, backend & systems', icon: 'Code2', sort_order: 1 },
+  { id: 'c2', name: 'Cybersecurity & Digital Skills', slug: 'cybersecurity-digital', description: 'Ethical hacking, privacy, Linux, network security', icon: 'ShieldAlert', sort_order: 2 },
+  { id: 'c3', name: 'Drawing, Painting & Crafts', slug: 'drawing-painting-crafts', description: 'Watercolor, sketching, ceramics, illustration', icon: 'Palette', sort_order: 3 },
+  { id: 'c4', name: 'Design, Photo & Video Editing', slug: 'design-photo-video', description: 'Graphic design, Figma, Premiere, DaVinci Resolve', icon: 'Video', sort_order: 4 },
+  { id: 'c5', name: 'Music & Instruments', slug: 'music-instruments', description: 'Acoustic guitar, piano, vocals, audio production', icon: 'Music', sort_order: 5 },
+  { id: 'c6', name: 'Dance & Performing Arts', slug: 'dance-performing-arts', description: 'Salsa, contemporary, acting, stage presence', icon: 'Sparkles', sort_order: 6 },
+  { id: 'c7', name: 'Languages & Communication', slug: 'languages-communication', description: 'Spanish, Japanese, French, conversational fluency', icon: 'Languages', sort_order: 7 },
+  { id: 'c8', name: 'Academics & Exam Prep', slug: 'academics-exam-prep', description: 'Calculus, GRE prep, history, academic research', icon: 'GraduationCap', sort_order: 8 },
+  { id: 'c9', name: 'Mathematics & Science', slug: 'mathematics-science', description: 'Linear algebra, statistics, chemistry, physics', icon: 'Atom', sort_order: 9 },
+  { id: 'c10', name: 'Cooking & Baking', slug: 'cooking-baking', description: 'Artisan sourdough, knife skills, pastry, culinary techniques', icon: 'ChefHat', sort_order: 10 },
+  { id: 'c11', name: 'Sports & Fitness Skills', slug: 'sports-fitness', description: 'Calisthenics, running form, mobility, strength biomechanics', icon: 'Activity', sort_order: 11 },
+  { id: 'c12', name: 'Writing & Storytelling', slug: 'writing-storytelling', description: 'Fiction, technical writing, screenplays, essays', icon: 'BookOpen', sort_order: 12 },
+  { id: 'c13', name: 'Business & Marketing', slug: 'business-marketing', description: 'Bootstrapping, SEO, copywriting, product strategy', icon: 'Briefcase', sort_order: 13 },
+  { id: 'c14', name: 'Personal Finance & Life Skills', slug: 'finance-life-skills', description: 'Budgeting, woodworking, DIY home repair, investing', icon: 'Compass', sort_order: 14 },
+  { id: 'c15', name: 'Gardening & Hobbies', slug: 'gardening-hobbies', description: 'Urban gardening, hydroponics, chess strategy, coffee', icon: 'Sprout', sort_order: 15 },
+  { id: 'c16', name: 'Custom & Emerging Skills', slug: 'custom-emerging', description: 'Unique crafts, emerging technologies, niche hobbies', icon: 'PlusCircle', sort_order: 16 },
+];
+
+export const SEED_SKILLS: Skill[] = [
+  { id: 's1', category_id: 'c1', name: 'Python Programming', slug: 'python-programming', description: 'Automation, scripting, data manipulation, and backend web APIs.', is_custom: false, tags: ['programming', 'python', 'backend'] },
+  { id: 's2', category_id: 'c1', name: 'React & TypeScript', slug: 'react-typescript', description: 'Component architecture, state management, and strict type safety.', is_custom: false, tags: ['web', 'frontend', 'react', 'typescript'] },
+  { id: 's3', category_id: 'c7', name: 'Conversational Spanish', slug: 'conversational-spanish', description: 'Everyday speaking practice, colloquial idioms, and pronunciation.', is_custom: false, tags: ['language', 'spanish', 'speaking'] },
+  { id: 's4', category_id: 'c4', name: 'Graphic Design & Branding', slug: 'graphic-design-branding', description: 'Visual hierarchy, typography, palette selection, and Figma prototyping.', is_custom: false, tags: ['design', 'figma', 'branding'] },
+  { id: 's5', category_id: 'c4', name: 'Video Editing & Motion Graphics', slug: 'video-editing-motion', description: 'Pacing, narrative editing, audio leveling, and DaVinci Resolve color grading.', is_custom: false, tags: ['video', 'editing', 'youtube'] },
+  { id: 's6', category_id: 'c12', name: 'Creative Writing & Storytelling', slug: 'creative-writing-storytelling', description: 'Three-act structure, dialogue pacing, character motivations, and narrative stakes.', is_custom: false, tags: ['writing', 'storytelling', 'creative'] },
+  { id: 's7', category_id: 'c10', name: 'Artisan Sourdough & Baking', slug: 'sourdough-baking', description: 'Wild yeast starter fermentation, dough hydration, shaping, and steam baking.', is_custom: false, tags: ['cooking', 'baking', 'sourdough'] },
+  { id: 's8', category_id: 'c11', name: 'Calisthenics & Bodyweight Fitness', slug: 'calisthenics-fitness', description: 'Pull-up progression, dips, handstand balance, joint conditioning.', is_custom: false, tags: ['fitness', 'calisthenics', 'health'] },
+  { id: 's9', category_id: 'c5', name: 'Acoustic Guitar Fundamentals', slug: 'acoustic-guitar-fundamentals', description: 'Open chords, strumming patterns, rhythm timing, and song accompaniment.', is_custom: false, tags: ['music', 'guitar', 'instrument'] },
+  { id: 's10', category_id: 'c2', name: 'Ethical Hacking & Web Security', slug: 'ethical-hacking-web-security', description: 'OWASP Top 10 vulnerabilities, web security auditing, authorization flaws.', is_custom: false, tags: ['cybersecurity', 'security', 'hacking'] },
+];
+
+export const SEED_PROFILES: Profile[] = [
+  {
+    id: 'u-maya',
+    email: 'maya.lin@example.com',
+    full_name: 'Maya Lin',
+    headline: 'Python Developer & Data Enthusiast',
+    bio: 'Software engineer who loves teaching Python from ground zero. I want to travel across Latin America and need conversational Spanish practice!',
+    avatar_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200',
+    timezone: 'America/New_York (UTC-5)',
+    language: 'English',
+    preferred_format: '1:1',
+    free_exchange_only: true,
+    paid_tutoring_offered: false,
+    currency: 'USD',
+    created_at: new Date(Date.now() - 86400000 * 30).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'u-carlos',
+    email: 'carlos.morales@example.com',
+    full_name: 'Carlos Morales',
+    headline: 'Native Spanish Speaker & Music Teacher',
+    bio: 'Bilingual educator based in Bogota. Passionate about helping learners speak Spanish with confidence. Learning Python to build automation tools!',
+    avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200',
+    timezone: 'America/Bogota (UTC-5)',
+    language: 'English',
+    preferred_format: '1:1',
+    free_exchange_only: true,
+    paid_tutoring_offered: false,
+    currency: 'USD',
+    created_at: new Date(Date.now() - 86400000 * 25).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'u-elena',
+    email: 'elena.rostova@example.com',
+    full_name: 'Elena Rostova',
+    headline: 'Brand & Visual Identity Designer',
+    bio: 'Figma and visual design mentor. Looking to level up my video editing skills so I can animate my brand identity projects.',
+    avatar_url: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200',
+    timezone: 'Europe/London (UTC+0)',
+    language: 'English',
+    preferred_format: 'small_group',
+    free_exchange_only: true,
+    paid_tutoring_offered: false,
+    currency: 'USD',
+    created_at: new Date(Date.now() - 86400000 * 20).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'u-marcus',
+    email: 'marcus.chen@example.com',
+    full_name: 'Marcus Chen',
+    headline: 'Documentary Video Editor',
+    bio: 'DaVinci Resolve colorist and editor. Wanting to learn creative writing to improve story pacing in my video essays.',
+    avatar_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200',
+    timezone: 'Europe/Berlin (UTC+1)',
+    language: 'English',
+    preferred_format: 'small_group',
+    free_exchange_only: true,
+    paid_tutoring_offered: false,
+    currency: 'USD',
+    created_at: new Date(Date.now() - 86400000 * 18).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'u-priya',
+    email: 'priya.sharma@example.com',
+    full_name: 'Priya Sharma',
+    headline: 'Novelist & Creative Non-Fiction Writer',
+    bio: 'Published author who teaches narrative arcs. I want to learn graphic design so I can self-publish and design book covers!',
+    avatar_url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200',
+    timezone: 'Europe/London (UTC+0)',
+    language: 'English',
+    preferred_format: 'small_group',
+    free_exchange_only: true,
+    paid_tutoring_offered: false,
+    currency: 'USD',
+    created_at: new Date(Date.now() - 86400000 * 15).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'u-david',
+    email: 'david.miller@example.com',
+    full_name: 'David Miller',
+    headline: 'Artisan Sourdough Baker',
+    bio: '10 years of sourdough baking. Want to improve posture and physical conditioning with bodyweight calisthenics.',
+    avatar_url: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200',
+    timezone: 'America/Chicago (UTC-6)',
+    language: 'English',
+    preferred_format: '1:1',
+    free_exchange_only: true,
+    paid_tutoring_offered: false,
+    currency: 'USD',
+    created_at: new Date(Date.now() - 86400000 * 12).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+  {
+    id: 'u-sarah',
+    email: 'sarah.jenkins@example.com',
+    full_name: 'Sarah Jenkins',
+    headline: 'Calisthenics & Movement Coach',
+    bio: 'Focus on healthy joint mechanics and bodyweight strength. Always wanted to master baking artisanal crusty sourdough!',
+    avatar_url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200',
+    timezone: 'America/Chicago (UTC-6)',
+    language: 'English',
+    preferred_format: '1:1',
+    free_exchange_only: true,
+    paid_tutoring_offered: false,
+    currency: 'USD',
+    created_at: new Date(Date.now() - 86400000 * 10).toISOString(),
+    updated_at: new Date().toISOString(),
+  },
+];
+
+export const SEED_TEACHING_SKILLS: UserTeachingSkill[] = [
+  // Maya teaches Python
+  { id: 'ts-m1', user_id: 'u-maya', skill_id: 's1', proficiency_level: 'expert', years_experience: 5.0, teaching_style: 'Hands-on code pairing with mini-challenges', is_free_exchange: true, availability_hours_per_week: 3, skill: SEED_SKILLS[0] },
+  // Carlos teaches Spanish
+  { id: 'ts-c1', user_id: 'u-carlos', skill_id: 's3', proficiency_level: 'expert', years_experience: 6.0, teaching_style: 'Conversational roleplaying and cultural immersion', is_free_exchange: true, availability_hours_per_week: 3, skill: SEED_SKILLS[2] },
+  // Elena teaches Graphic Design
+  { id: 'ts-e1', user_id: 'u-elena', skill_id: 's4', proficiency_level: 'advanced', years_experience: 4.0, teaching_style: 'Figma file walkthroughs and typography critique', is_free_exchange: true, availability_hours_per_week: 2, skill: SEED_SKILLS[3] },
+  // Marcus teaches Video Editing
+  { id: 'ts-m2', user_id: 'u-marcus', skill_id: 's5', proficiency_level: 'advanced', years_experience: 3.5, teaching_style: 'Project timeline reviews and pacing feedback', is_free_exchange: true, availability_hours_per_week: 2, skill: SEED_SKILLS[4] },
+  // Priya teaches Creative Writing
+  { id: 'ts-p1', user_id: 'u-priya', skill_id: 's6', proficiency_level: 'advanced', years_experience: 5.0, teaching_style: 'Story prompt drafting and structural critique', is_free_exchange: true, availability_hours_per_week: 2, skill: SEED_SKILLS[5] },
+  // David teaches Sourdough
+  { id: 'ts-d1', user_id: 'u-david', skill_id: 's7', proficiency_level: 'expert', years_experience: 7.0, teaching_style: 'Starter troubleshooting and dough feel breakdown', is_free_exchange: true, availability_hours_per_week: 2, skill: SEED_SKILLS[6] },
+  // Sarah teaches Calisthenics
+  { id: 'ts-s1', user_id: 'u-sarah', skill_id: 's8', proficiency_level: 'advanced', years_experience: 3.0, teaching_style: 'Joint mobility warmup and form check videos', is_free_exchange: true, availability_hours_per_week: 2, skill: SEED_SKILLS[7] },
+];
+
+export const SEED_LEARNING_GOALS: UserLearningGoal[] = [
+  // Maya wants Spanish
+  { id: 'lg-m1', user_id: 'u-maya', skill_id: 's3', current_proficiency: 'beginner', desired_proficiency: 'intermediate', learning_objective: 'Order food and converse naturally on an upcoming trip', preferred_format: '1:1', skill: SEED_SKILLS[2] },
+  // Carlos wants Python
+  { id: 'lg-c1', user_id: 'u-carlos', skill_id: 's1', current_proficiency: 'none', desired_proficiency: 'beginner', learning_objective: 'Automate lesson scheduling and spreadsheets', preferred_format: '1:1', skill: SEED_SKILLS[0] },
+  // Elena wants Video Editing
+  { id: 'lg-e1', user_id: 'u-elena', skill_id: 's5', current_proficiency: 'beginner', desired_proficiency: 'intermediate', learning_objective: 'Add motion and animated cuts to brand deliverables', preferred_format: 'small_group', skill: SEED_SKILLS[4] },
+  // Marcus wants Creative Writing
+  { id: 'lg-m2', user_id: 'u-marcus', skill_id: 's6', current_proficiency: 'beginner', desired_proficiency: 'intermediate', learning_objective: 'Write sharper voiceover scripts for video documentaries', preferred_format: 'small_group', skill: SEED_SKILLS[5] },
+  // Priya wants Graphic Design
+  { id: 'lg-p1', user_id: 'u-priya', skill_id: 's4', current_proficiency: 'beginner', desired_proficiency: 'intermediate', learning_objective: 'Design visual book jackets and promotional banners', preferred_format: 'small_group', skill: SEED_SKILLS[3] },
+  // David wants Calisthenics
+  { id: 'lg-d1', user_id: 'u-david', skill_id: 's8', current_proficiency: 'none', desired_proficiency: 'beginner', learning_objective: 'Build core strength and improve baker posture safely', preferred_format: '1:1', skill: SEED_SKILLS[7] },
+  // Sarah wants Sourdough
+  { id: 'lg-s1', user_id: 'u-sarah', skill_id: 's7', current_proficiency: 'beginner', desired_proficiency: 'intermediate', learning_objective: 'Bake consistent open-crumb sourdough boules', preferred_format: '1:1', skill: SEED_SKILLS[6] },
+];
+
+export const SEED_ACHIEVEMENTS: Achievement[] = [
+  { id: 'a1', code: 'first_exchange', title: 'First Loop Completed', description: 'Completed your very first 1:1 peer skill exchange session.', badge_icon: 'Award', required_count: 1 },
+  { id: 'a2', code: 'circle_pioneer', title: 'Circle Pioneer', description: 'Formed or joined a verified 3-person Skill Circle.', badge_icon: 'Users', required_count: 1 },
+  { id: 'a3', code: 'resource_curator', title: 'Library Builder', description: 'Saved 5 high-quality learning resources to your personal library.', badge_icon: 'BookmarkCheck', required_count: 5 },
+  { id: 'a4', code: 'knowledge_giver', title: 'Dedicated Mentor', description: 'Completed 3 sessions teaching your skill to eager peer learners.', badge_icon: 'HeartHandshake', required_count: 3 },
+  { id: 'a5', code: 'ai_scholar', title: 'Quiz Achiever', description: 'Passed an AI skill assessment with a score of 80% or higher.', badge_icon: 'CheckCircle2', required_count: 1 },
+];
