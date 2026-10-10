@@ -47,9 +47,14 @@ export const LandingPage: React.FC = () => {
               Start Exchanging Free <ArrowRight className="w-4 h-4 ml-1.5" />
             </Button>
           </Link>
+          <Link to="/login">
+            <Button variant="secondary" size="lg" className="bg-slate-100 hover:bg-slate-200 text-slate-800">
+              Sign In to Account
+            </Button>
+          </Link>
           <Link to="/catalogue">
             <Button variant="outline" size="lg">
-              Explore 16 Skill Categories
+              Explore 16 Categories
             </Button>
           </Link>
         </div>

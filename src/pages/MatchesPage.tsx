@@ -95,9 +95,14 @@ export const MatchesPage: React.FC = () => {
       </div>
 
       {notification && (
-        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 flex items-center gap-2">
-          <CheckCircle className="w-4 h-4 text-emerald-600" />
-          {notification}
+        <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>{notification}</span>
+          </div>
+          <Link to="/requests" className="text-emerald-800 underline font-bold hover:text-emerald-950 whitespace-nowrap">
+            View in Sent Proposals &rarr;
+          </Link>
         </div>
       )}
 

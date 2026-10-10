@@ -21,6 +21,7 @@ import {
   SEED_TEACHING_SKILLS,
   SEED_LEARNING_GOALS,
   SEED_ACHIEVEMENTS,
+  SEED_MATCH_REQUESTS,
 } from './mockData';
 import { PRE_CACHED_RESOURCES } from './resourceService';
 
@@ -45,20 +46,33 @@ export interface AppState {
   notifications: NotificationItem[];
 }
 
+function hydrateRequests(rawRequests: MatchRequest[] | undefined, profiles: Profile[], skills: Skill[]): MatchRequest[] {
+  const base = rawRequests && rawRequests.length > 0 ? rawRequests : SEED_MATCH_REQUESTS;
+  return base.map((r) => ({
+    ...r,
+    sender: r.sender || profiles.find((p) => p.id === r.sender_id),
+    receiver: r.receiver || profiles.find((p) => p.id === r.receiver_id),
+    sender_skill: r.sender_skill || skills.find((s) => s.id === r.sender_teaches_skill_id),
+    receiver_skill: r.receiver_skill || skills.find((s) => s.id === r.sender_learns_skill_id),
+  }));
+}
+
 function getInitialState(): AppState {
   try {
     if (typeof localStorage !== 'undefined') {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
+        const profiles = parsed.profiles || SEED_PROFILES;
+        const skills = parsed.skills || SEED_SKILLS;
         return {
           currentUser: parsed.currentUser || SEED_PROFILES[0],
-          profiles: parsed.profiles || SEED_PROFILES,
+          profiles,
           categories: parsed.categories || SEED_CATEGORIES,
-          skills: parsed.skills || SEED_SKILLS,
+          skills,
           teachingSkills: parsed.teachingSkills || SEED_TEACHING_SKILLS,
           learningGoals: parsed.learningGoals || SEED_LEARNING_GOALS,
-          matchRequests: parsed.matchRequests || [],
+          matchRequests: hydrateRequests(parsed.matchRequests, profiles, skills),
           circles: parsed.circles || [],
           savedResources: parsed.savedResources || [
             {
@@ -105,6 +119,16 @@ function getInitialState(): AppState {
             {
               id: 'notif-1',
               user_id: 'u-maya',
+              title: 'New Exchange Invitation!',
+              message: 'Carlos Morales sent you an exchange proposal: Conversational Spanish ↔ Python Programming.',
+              type: 'match_request',
+              link: '/requests',
+              is_read: false,
+              created_at: new Date(Date.now() - 3600000 * 3).toISOString(),
+            },
+            {
+              id: 'notif-2',
+              user_id: 'u-maya',
               title: 'Reciprocal Match Available!',
               message: 'Carlos Morales wants to learn Python and can teach Conversational Spanish.',
               type: 'match_request',
@@ -127,7 +151,7 @@ function getInitialState(): AppState {
     skills: SEED_SKILLS,
     teachingSkills: SEED_TEACHING_SKILLS,
     learningGoals: SEED_LEARNING_GOALS,
-    matchRequests: [],
+    matchRequests: hydrateRequests([], SEED_PROFILES, SEED_SKILLS),
     circles: [],
     savedResources: [
       {

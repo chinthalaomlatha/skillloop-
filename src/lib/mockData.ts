@@ -1,4 +1,4 @@
-import { Profile, SkillCategory, Skill, UserTeachingSkill, UserLearningGoal, LearningResource, Achievement, NotificationItem } from '../types';
+import { Profile, SkillCategory, Skill, UserTeachingSkill, UserLearningGoal, LearningResource, Achievement, NotificationItem, MatchRequest } from '../types';
 import { PRE_CACHED_RESOURCES } from './resourceService';
 
 export const SEED_CATEGORIES: SkillCategory[] = [
@@ -188,4 +188,55 @@ export const SEED_ACHIEVEMENTS: Achievement[] = [
   { id: 'a3', code: 'resource_curator', title: 'Library Builder', description: 'Saved 5 high-quality learning resources to your personal library.', badge_icon: 'BookmarkCheck', required_count: 5 },
   { id: 'a4', code: 'knowledge_giver', title: 'Dedicated Mentor', description: 'Completed 3 sessions teaching your skill to eager peer learners.', badge_icon: 'HeartHandshake', required_count: 3 },
   { id: 'a5', code: 'ai_scholar', title: 'Quiz Achiever', description: 'Passed an AI skill assessment with a score of 80% or higher.', badge_icon: 'CheckCircle2', required_count: 1 },
+];
+
+export const SEED_MATCH_REQUESTS: MatchRequest[] = [
+  {
+    id: 'req-carlos-maya',
+    sender_id: 'u-carlos',
+    receiver_id: 'u-maya',
+    sender_teaches_skill_id: 's3',
+    sender_learns_skill_id: 's1',
+    status: 'pending',
+    message: "Hi Maya! I saw your profile and noticed you teach Python and want to learn conversational Spanish. I'm a native speaker based in Bogota and would love to exchange 1 hour of weekly Spanish practice for Python debugging mentorship!",
+    compatibility_score: 95,
+    created_at: new Date(Date.now() - 3600000 * 3).toISOString(),
+    updated_at: new Date(Date.now() - 3600000 * 3).toISOString(),
+    sender: SEED_PROFILES[1],
+    receiver: SEED_PROFILES[0],
+    sender_skill: SEED_SKILLS[2],
+    receiver_skill: SEED_SKILLS[0],
+  },
+  {
+    id: 'req-maya-elena',
+    sender_id: 'u-maya',
+    receiver_id: 'u-elena',
+    sender_teaches_skill_id: 's1',
+    sender_learns_skill_id: 's4',
+    status: 'pending',
+    message: "Hey Elena! I'm impressed by your branding and Figma work. Would you like to exchange design critiques for hands-on Python automation pairing?",
+    compatibility_score: 88,
+    created_at: new Date(Date.now() - 86400000).toISOString(),
+    updated_at: new Date(Date.now() - 86400000).toISOString(),
+    sender: SEED_PROFILES[0],
+    receiver: SEED_PROFILES[2],
+    sender_skill: SEED_SKILLS[0],
+    receiver_skill: SEED_SKILLS[3],
+  },
+  {
+    id: 'req-david-sarah',
+    sender_id: 'u-david',
+    receiver_id: 'u-sarah',
+    sender_teaches_skill_id: 's7',
+    sender_learns_skill_id: 's8',
+    status: 'accepted',
+    message: "Hi Sarah! I'd love to exchange sourdough wild-fermentation baking techniques for your joint mobility and calisthenics coaching.",
+    compatibility_score: 92,
+    created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
+    updated_at: new Date(Date.now() - 86400000 * 2).toISOString(),
+    sender: SEED_PROFILES[5],
+    receiver: SEED_PROFILES[6],
+    sender_skill: SEED_SKILLS[6],
+    receiver_skill: SEED_SKILLS[7],
+  },
 ];

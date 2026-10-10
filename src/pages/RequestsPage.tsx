@@ -34,6 +34,23 @@ export const RequestsPage: React.FC = () => {
     store.updateMatchRequestStatus(reqId, status);
   };
 
+  if (!user) {
+    return (
+      <div className="max-w-md mx-auto py-12 text-center space-y-4">
+        <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+          <Mail className="w-6 h-6" />
+        </div>
+        <h2 className="text-xl font-bold text-slate-900">Sign in to View Exchange Requests</h2>
+        <p className="text-xs text-slate-600">
+          Exchange requests connect you with peers who want to swap skills. Sign in to review incoming invitations.
+        </p>
+        <Button variant="primary" size="md" onClick={() => navigate('/login')}>
+          Sign In to Your Account
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
