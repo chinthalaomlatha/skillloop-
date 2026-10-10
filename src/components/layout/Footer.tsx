@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Repeat, ShieldCheck, Heart, Github } from 'lucide-react';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 export const Footer: React.FC = () => {
   return (
